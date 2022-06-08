@@ -12,7 +12,7 @@ namespace ShoppingList
         static void Main(string[] args)
         {
             List<string> list = new List<string>();
-            string path = @"C:\Users\MiikkaHakulinen\source\repos\ShoppingList\list.txt";
+            string path = Environment.CurrentDirectory + @".\list.txt";
             while (true)
             {
                 if (File.Exists(path))
