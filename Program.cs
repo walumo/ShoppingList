@@ -12,20 +12,27 @@ namespace ShoppingList
         static void Main(string[] args)
         {
             List<string> list = new List<string>();
-            string path = Environment.CurrentDirectory + @".\list.txt";
+            string path = Environment.CurrentDirectory + @"\list.txt";
             while (true)
             {
                 if (File.Exists(path))
                 {
                     Console.Clear();
-                    Console.WriteLine("Your items");
+                    Console.ForegroundColor = ConsoleColor.DarkGreen;
+                    Console.WriteLine("Showing items from list created on: " + File.GetCreationTime(path));
+                    Console.WriteLine("\nYour items");
+                    Console.ForegroundColor = ConsoleColor.White;
                     list = File.ReadAllLines(path).ToList();
+                    if (list.Count() < 1) Console.WriteLine("\nNo items in your list!");
                     for (int i = 1; i < list.Count() + 1; i++)
                     {
                         Console.WriteLine("{0}. {1}", i, list[i - 1].ToUpper());
                     }
-                    Console.Write("Press any key to add items: ");
-                    Console.ReadKey();
+                    Console.WriteLine("\nPress Enter to add items or");
+                    Console.Write("write 'delete' to start new list: ");
+                    string input = Console.ReadLine().ToLower().Trim();
+                    if (input == "delete") { File.Delete(path); list.Clear(); continue; }
+                    else if (!String.IsNullOrWhiteSpace(input)) { Console.WriteLine("Invalid input!"); Console.ReadKey(); continue; }
                 }
                 else Console.WriteLine("Invalid filepath!");
 
@@ -33,6 +40,7 @@ namespace ShoppingList
                 {
                     string input;
                     Console.Clear();
+                    if (list.Count() < 1) Console.WriteLine("Your list is empty!\n");
                     Console.Write("Enter new item (blank to return): ");
                     input = Console.ReadLine();
                     if (String.IsNullOrWhiteSpace(input)) { File.WriteAllLines(path, list); break; }
