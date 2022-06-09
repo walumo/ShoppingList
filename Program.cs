@@ -2,8 +2,6 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace ShoppingList
 {
@@ -34,7 +32,7 @@ namespace ShoppingList
                     if (input == "delete") { File.Delete(path); list.Clear(); continue; }
                     else if (!String.IsNullOrWhiteSpace(input)) { Console.WriteLine("Invalid input!"); Console.ReadKey(); continue; }
                 }
-                else Console.WriteLine("Invalid filepath!");
+                else { Console.Write("Press any key to create new shopping list..."); Console.ReadKey(); Console.Clear(); }
 
                 while (true)
                 {
@@ -45,7 +43,7 @@ namespace ShoppingList
                     input = Console.ReadLine();
                     if (String.IsNullOrWhiteSpace(input)) { File.WriteAllLines(path, list); break; }
                     list.Add(input);
-                } 
+                }
             }
         }
     }
